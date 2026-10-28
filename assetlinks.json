@@ -5,8 +5,7 @@
       "namespace": "android_app",
       "package_name": "in.creatortoolkits.app",
       "sha256_cert_fingerprints": [
-        "PASTE_PLAY_APP_SIGNING_SHA256_HERE",
-        "PASTE_PWABUILDER_UPLOAD_KEY_SHA256_HERE"
+        "F1:81:73:6F:B0:2C:CF:0E:3C:AF:9F:EB:0C:5C:2B:0D:01:F9:DD:C5:81:78:28:21:24:BE:9F:00:79:DB:54:B3"
       ]
     }
   }
