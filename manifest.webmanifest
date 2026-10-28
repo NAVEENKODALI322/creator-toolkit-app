@@ -1,0 +1,26 @@
+{
+  "id": "/",
+  "name": "Creator Toolkit: YouTube Tools",
+  "short_name": "Creator Toolkit",
+  "description": "AI titles, hooks, tags, hashtags and descriptions for YouTube creators. Telugu and English.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0D1117",
+  "theme_color": "#0D1117",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["productivity", "utilities"],
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Title Generator", "short_name": "Titles", "url": "/#/tool/title" },
+    { "name": "Hook Generator", "short_name": "Hooks", "url": "/#/tool/hooks" },
+    { "name": "Upload Checklist", "short_name": "Checklist", "url": "/#/checklist" }
+  ]
+}

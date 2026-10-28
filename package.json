@@ -1,0 +1,7 @@
+{
+  "name": "creator-toolkit-app",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Creator Toolkit app: AI tools for YouTube creators (installable web app, packaged for Google Play)."
+}

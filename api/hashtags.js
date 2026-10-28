@@ -1,0 +1,88 @@
+import { guard } from "./_guard.js";
+export default async function handler(req, res) {
+  // Allow requests from the Android/iOS app and browser
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
+  if (!guard(req, res)) return;
+  // Allow only POST requests
+  if (req.method !== "POST") {
+    return res.status(405).json({
+      error: "Method Not Allowed. Use POST."
+    });
+  }
+
+  try {
+    const { topic, platform, hashtagCount } = req.body || {};
+
+    if (!topic || !platform || !hashtagCount) {
+      return res.status(400).json({
+        error: "Missing required fields."
+      });
+    }
+
+    if (!process.env.GROQ_API_KEY) {
+      console.error("GROQ_API_KEY is missing in environment variables.");
+      return res.status(500).json({
+        error: "Server misconfiguration: API key not set."
+      });
+    }
+
+    const response = await fetch(
+      "https://api.groq.com/openai/v1/chat/completions",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${process.env.GROQ_API_KEY}`,
+        },
+        body: JSON.stringify({
+         model: "openai/gpt-oss-20b",
+reasoning_effort: "low",
+          messages: [
+            {
+              role: "system",
+              content: "You are a social media growth expert."
+            },
+            {
+              role: "user",
+              content: `Generate exactly ${hashtagCount} hashtags for "${topic}" on ${platform}. Return only hashtags, one per line.`
+            }
+          ],
+          temperature: 0.8,
+          max_tokens: 1200
+        })
+      }
+    );
+
+    const data = await response.json();
+
+    console.log("Status:", response.status);
+
+    if (!response.ok) {
+      // Never show the raw message from the AI service (it can contain account details).
+      console.error("AI service error status:", response.status);
+      return res.status(response.status === 429 ? 429 : 502).json({
+        error: {
+          message: response.status === 429
+            ? "Too many people are using the AI tools right now. Please wait a minute and try again."
+            : "The AI service is busy or unavailable at the moment. Please try again in a moment."
+        }
+      });
+    }
+
+    return res.status(200).json({
+      hashtags: data.choices[0].message.content
+    });
+
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({
+      error: err.message
+    });
+  }
+}
